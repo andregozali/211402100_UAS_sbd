@@ -1,0 +1,38 @@
+MariaDB [(none)]> SHOW databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| library_input      |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| prak_sbd           |
+| prakproweb         |
+| praktikum_pwl      |
+| test               |
+| testdatabase       |
+| todolist           |
+| trace_together     |
+| tugasbesar_pwl     |
+| uas_sbd            |
+| website_laravel    |
++--------------------+
+15 rows in set (0.008 sec)
+
+MariaDB [(none)]> USE uas_sbd;
+Database changed
+MariaDB [uas_sbd]> SELECT 
+    -> a.id, a.task_name, b.task_status, b.task_comments, d.category_name as 'Category',
+    -> DATEDIFF(a.task_duration_end, a.task_duration_start) as 'Lama Pengerjaan',
+    -> c.name as 'Create By', (SELECT name from users where users.id = task_dailies.user_verify_id ) as 'Verified By'
+    -> FROM task_plans a
+    -> RIGHT JOIN task_dailies b ON a.id = b.plan_id
+    -> INNER JOIN users c ON b.id = c.id
+    -> RIGHT JOIN task_categories d ON a.category_id = d.id;
+ERROR 1054 (42S22): Unknown column 'a.task_duration_start' in 'field list'
+MariaDB [uas_sbd]> CREATE VIEW 211402100 AS SELECT id, task_name, task_status, category_id, indicators_id FROM task_plans ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '211402100 AS SELECT id, task_name, task_status, category_id, indicators_id FR...' at line 1
+MariaDB [uas_sbd]> CREATE VIEW 211402100 AS SELECT id, task_name, task_status, category_id, indicators_id FROM task_plans WHERE name = 'User A';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '211402100 AS SELECT id, task_name, task_status, category_id, indicators_id FR...' at line 1
